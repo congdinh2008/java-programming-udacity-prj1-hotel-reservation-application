@@ -67,6 +67,7 @@ public class AdminMenu {
                 break;
             } else {
                 System.out.println("Invalid room number. Please try again.");
+                scanner.next();
             }
         }
 
@@ -91,6 +92,7 @@ public class AdminMenu {
                 }
             } else {
                 System.out.println("Invalid choice. Please try again.");
+                scanner.next();
             }
         }
 
@@ -110,6 +112,7 @@ public class AdminMenu {
                 }
             } else {
                 System.out.println("Invalid choice. Please try again.");
+                scanner.next();
             }
         }
 
