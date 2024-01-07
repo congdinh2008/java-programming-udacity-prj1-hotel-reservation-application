@@ -3,6 +3,8 @@ package com.congdinh.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.text.SimpleDateFormat;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,12 +29,12 @@ public class ReservationService {
     private final static String RESERVATIONS_SHEET = "Reservations";
 
     private static ReservationService reservationService = null;
-    private Collection<Reservation> reservations;
-    private Collection<IRoom> rooms;
+    private Set<Reservation> reservations;
+    private Set<IRoom> rooms;
 
     public ReservationService() {
-        this.reservations = new ArrayList<Reservation>();
-        this.rooms = new ArrayList<IRoom>();
+        this.reservations = new HashSet<Reservation>();
+        this.rooms = new HashSet<IRoom>();
     }
 
     public static ReservationService getInstance() {
