@@ -28,11 +28,11 @@ public class MainMenu {
             System.out.println("Enter customer email: ");
             String email = scanner.nextLine();
 
-            // validate email format: example@domain.com
+            // validate email format: example@domain.com with domain.com is domain part
             if (email.isEmpty()) {
                 System.out.println("Email cannot be empty.");
                 continue;
-            } else if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            } else if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.com)$")) {
                 System.out.println("Invalid email format.");
                 continue;
             } else {
@@ -139,7 +139,7 @@ public class MainMenu {
             email = scanner.nextLine();
             if (email.isEmpty()) {
                 System.out.println("Email cannot be empty.");
-            } else if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            } else if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.com)$")) {
                 System.out.println("Invalid email format.");
             } else {
                 break;

@@ -42,7 +42,7 @@ public class Customer {
         if (email == null || email.isEmpty()) {
             throw new IllegalArgumentException("Email cannot be null or empty");
         }
-        if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.com)$")) {
             throw new IllegalArgumentException("Email address is not valid");
         }
         this.email = email;
