@@ -11,14 +11,14 @@ import com.congdinh.model.IRoom;
 import com.congdinh.model.Room;
 import com.congdinh.model.RoomType;
 
-public class AdminManager {
-    private static AdminManager adminManager = null;
+public class AdminMenu {
+    private static AdminMenu adminManager = null;
 
     private AdminResource adminResource = AdminResource.getInstance();
 
-    public static AdminManager getInstance() {
+    public static AdminMenu getInstance() {
         if (adminManager == null) {
-            adminManager = new AdminManager();
+            adminManager = new AdminMenu();
         }
         return adminManager;
     }
