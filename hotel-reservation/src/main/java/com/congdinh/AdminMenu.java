@@ -27,7 +27,8 @@ public class AdminMenu {
         List<IRoom> rooms = new ArrayList<IRoom>();
 
         do {
-            rooms.add(addRoom(scanner));
+            var room = addRoom(scanner, rooms);
+            rooms.add(room);
             System.out.println("Do you want to add another room (Y/N): ");
             String choice = scanner.next();
             if (choice.equalsIgnoreCase("N")) {
@@ -46,7 +47,7 @@ public class AdminMenu {
      * Allow admin to add a room to the system
      * Data input from keyboard
      */
-    public Room addRoom(Scanner scanner) {
+    public Room addRoom(Scanner scanner, List<IRoom> newRooms) {
         System.out.println("=================== Add Room - Admin Manager ===================");
 
         String roomNumber;
@@ -59,8 +60,10 @@ public class AdminMenu {
                 continue;
             }
 
+            final String finalRoomNumber = roomNumber;
             if (roomNumber != null && !roomNumber.isEmpty()) {
-                if (adminResource.getARoom(roomNumber) != null) {
+                if (adminResource.getARoom(roomNumber) != null
+                        || newRooms.stream().anyMatch(room -> room.getRoomNumber().equalsIgnoreCase(finalRoomNumber))) {
                     System.out.println("Room number already exists. Please try again.");
                     continue;
                 }
