@@ -49,10 +49,16 @@ public class AdminMenu {
     public Room addRoom(Scanner scanner) {
         System.out.println("=================== Add Room - Admin Manager ===================");
 
-        System.out.println("Please enter room number: ");
         String roomNumber;
         while (true) {
+            System.out.println("Please enter room number: ");
             roomNumber = scanner.next();
+            // Check if room number is not a valid number
+            if (!roomNumber.matches("[0-9]+")) {
+                System.out.println("Invalid room number. Please try again.");
+                continue;
+            }
+
             if (roomNumber != null && !roomNumber.isEmpty()) {
                 if (adminResource.getARoom(roomNumber) != null) {
                     System.out.println("Room number already exists. Please try again.");
@@ -65,14 +71,17 @@ public class AdminMenu {
         }
 
         // Print Enum RoomType to console for admin to choose
-        int i = 1;
-        for (RoomType roomType : RoomType.values()) {
-            System.out.println(i + ". " + roomType);
-            i++;
-        }
-        System.out.println("Please enter room type: ");
+
         int roomType = 0;
         while (true) {
+            int i = 1;
+            for (RoomType type : RoomType.values()) {
+                System.out.println(i + ". " + type);
+                i++;
+            }
+
+            System.out.println("Please enter room type: ");
+
             if (scanner.hasNextInt()) {
                 roomType = scanner.nextInt();
                 if (roomType > 0 && roomType <= RoomType.values().length) {
@@ -82,16 +91,16 @@ public class AdminMenu {
                 }
             } else {
                 System.out.println("Invalid choice. Please try again.");
-                scanner.next();
             }
         }
 
         // Allow admin to set if room is free
-        System.out.println("Please enter if room is free (1/2): ");
-        System.out.println("1. True");
-        System.out.println("2. False");
+
         int free = 0;
         while (true) {
+            System.out.println("Please enter if room is free (1/2): ");
+            System.out.println("1. True");
+            System.out.println("2. False");
             if (scanner.hasNextInt()) {
                 free = scanner.nextInt();
                 if (free > 0 && free <= 2) {
@@ -101,7 +110,6 @@ public class AdminMenu {
                 }
             } else {
                 System.out.println("Invalid choice. Please try again.");
-                scanner.next();
             }
         }
 
@@ -110,9 +118,9 @@ public class AdminMenu {
         }
 
         // Allow admin to set price for room
-        System.out.println("Please enter price per night (price > 0): ");
         double price = 0.0;
         while (true) {
+            System.out.println("Please enter price per night (price > 0): ");
             if (scanner.hasNextDouble()) {
                 price = scanner.nextDouble();
                 if (price > 0) {

@@ -330,7 +330,7 @@ public class MainMenu {
         }
 
         // check if user wants to continue using the application
-        System.out.println("Do you want to continue using the application (Y/N): ");
+        System.out.println("Do you want to continue using the admin services (Y/N): ");
         String choice = scanner.next();
         if (choice.equalsIgnoreCase("Y")) {
             adminManagement(scanner);
