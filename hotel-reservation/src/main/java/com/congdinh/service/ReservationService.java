@@ -351,7 +351,7 @@ public class ReservationService {
             int rowNum = 1;
             for (Reservation reservation : this.reservations) {
                 Row row = sheet.createRow(rowNum++);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
                 row.createCell(0).setCellValue(reservation.getCustomer().getFirstName());
                 row.createCell(1).setCellValue(reservation.getCustomer().getLastName());

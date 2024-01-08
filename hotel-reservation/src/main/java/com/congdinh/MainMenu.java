@@ -1,11 +1,13 @@
 package com.congdinh;
 
 import java.util.Collection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
 import com.congdinh.api.HotelResource;
+import com.congdinh.helpers.DateTimeHelper;
 import com.congdinh.helpers.InputHandler;
 import com.congdinh.model.IRoom;
 import com.congdinh.model.Reservation;
@@ -80,32 +82,48 @@ public class MainMenu {
         System.out.println("=================== Find and reserve a room - Hotel Services ===================");
 
         Date[] dates;
+        Date[] suggestDates = new Date[2];
         Collection<IRoom> rooms;
+        boolean isSuggested = false;
         while (true) {
             dates = InputHandler.getDateRange(scanner);
             rooms = hotelResource.findARoom(dates[0], dates[1]);
             if (rooms.size() == 0) {
                 System.out.println("No rooms available for this date range.");
-                String anotherChoice;
-                while (true) {
-                    System.out.println("Do you want to choose another date range (Y/N): ");
-                    anotherChoice = scanner.next();
-                    if (anotherChoice.equalsIgnoreCase("N") || anotherChoice.equalsIgnoreCase("Y")) {
-                        break;
-                    } else {
-                        System.out.println("Invalid choice. Please try again.");
+                suggestDates = suggestDateRange(dates);
+                rooms = hotelResource.findARoom(suggestDates[0], suggestDates[1]);
+                if (rooms.size() == 0) {
+                    System.out.println("No rooms available for suggested date range.");
+                    // ask user if they want to choose another date range (Y/N
+                    String anotherChoice;
+                    while (true) {
+                        System.out.println("Do you want to choose another date range (Y/N): ");
+                        anotherChoice = scanner.next();
+                        if (anotherChoice.equalsIgnoreCase("N") || anotherChoice.equalsIgnoreCase("Y")) {
+                            break;
+                        } else {
+                            System.out.println("Invalid choice. Please try again.");
+                        }
                     }
-                }
-                if (anotherChoice.equalsIgnoreCase("N")) {
-                    return;
+                    if (anotherChoice.equalsIgnoreCase("N")) {
+                        return;
+                    } else {
+                        continue;
+                    }
                 } else {
-                    continue;
+                    System.out.println("List of available rooms for suggested date range " 
+                            + DateTimeHelper.dateToString(suggestDates[0], new SimpleDateFormat("MM/dd/yyyy")) + " - "
+                            + DateTimeHelper.dateToString(suggestDates[1], new SimpleDateFormat("MM/dd/yyyy")) + ": ");
+                    isSuggested = true;
+                    break;
                 }
             } else {
+                System.out.println("List of available rooms for date range " 
+                        + DateTimeHelper.dateToString(dates[0], new SimpleDateFormat("MM/dd/yyyy")) + " - " 
+                        + DateTimeHelper.dateToString(dates[1], new SimpleDateFormat("MM/dd/yyyy")) + ":");
                 break;
             }
         }
-        System.out.println("List of available rooms: ");
         System.out.printf("| %-15s | %-15s | %-15s | %-15s |\n",
                 "Room Number", "Price", "Room Type", "Free");
         for (IRoom room : rooms) {
@@ -127,8 +145,21 @@ public class MainMenu {
         if (choice.equalsIgnoreCase("N")) {
             return;
         } else {
-            bookARoomUI(scanner, dates[0], dates[1], rooms);
+            if(isSuggested) {
+                bookARoomUI(scanner, suggestDates[0], suggestDates[1], rooms);
+            } else {
+                bookARoomUI(scanner, dates[0], dates[1], rooms);
+            }
         }
+    }
+
+    private Date[] suggestDateRange(Date[] dates) {
+        // suggest a date range for user by adding 7 days to check in date and check out
+        // date
+        Date[] suggestDates = new Date[2];
+        suggestDates[0] = new Date(dates[0].getTime() + 7 * 24 * 60 * 60 * 1000);
+        suggestDates[1] = new Date(dates[1].getTime() + 7 * 24 * 60 * 60 * 1000);
+        return suggestDates;
     }
 
     private void bookARoomUI(Scanner scanner, Date checkInDate, Date checkOutDate, Collection<IRoom> rooms) {
