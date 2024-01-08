@@ -219,9 +219,25 @@ public class MainMenu {
         while (true) {
             System.out.println("Enter room number: ");
             roomNumber = scanner.nextLine();
-            if (roomNumber.isEmpty()) {
-                System.out.println("Room number cannot be empty.");
+
+            // Check if room number is not a valid number
+            if (!roomNumber.matches("[0-9]+")) {
+                System.out.println("Invalid room number. Please try again.");
+                continue;
             }
+
+            if (roomNumber == null || roomNumber.isEmpty()) {
+                System.out.println("Room number cannot be null or empty.");
+            }
+
+            // Check if room number is not exists in list of available rooms
+             // Check if room number is not a valid number
+            final String finalRoomNumber = roomNumber;
+            if(rooms.stream().noneMatch(r -> r.getRoomNumber().equalsIgnoreCase(finalRoomNumber))) {
+                System.out.println("Room number not found. Please try again.");
+                continue;
+            }
+            
             room = hotelResource.getRoom(roomNumber);
             if (room == null) {
                 System.out.println("Room not found.");
